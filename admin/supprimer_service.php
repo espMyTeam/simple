@@ -26,35 +26,34 @@
 				if(isset($_POST['id']) && $_POST['id']!==""){
 
 					//selectionner l'utilisateur
-					$res=selectionneTutoriel($_POST['id'],$base);
+					$res=selectionneServiceById($_POST['id'],$base);
 					
 		
 					?>
 						<table border="0">
-						<caption>tutoriel n°:<?php echo $res['tutoriel_id'];?></caption>
+						<caption>Service n°:<?php echo $res['service_id'];?></caption>
 						<tr>
-							<td><label>Entete</label></td>
-							<td><?php echo  $res['tutoriel_entete'];?></td>
+							<td><label>Titre:</label></td>
+							<td><?php echo  $res['service_titre'];?></td>
 						</tr>
 						<tr>
-							<td><label>Tutoriel</label></td>
-							<td><?php echo $res['tutoriel_contenu'];?></td>
+							<td><label>Nom:</label></td>
+							<td><?php echo $res['service_nom'];?></td>
 						</tr>
 						<tr>
-							<td><label>Date d'envoie</label></td>
-							<td><?php echo $res['tutoriel_dateDenvoie'];?></td>
+							<td><label>Description:</label></td>
+							<td><?php echo $res['service_description'];?></td>
 						</tr>
 						<tr>
-							<td><label>Service</label></td>
-							
-							<td><?php echo $res['service_titre'];?></td>
+							<td><label>N° Tel:</label></td>
+							<td><?php echo $res['service_numero'];?></td>
 						</tr>
 						</table>
 
-					<form method="post" action="supprimer_tutoriel.php">
-						<input type="hidden" name="id_tuto" <?php echo "value='" . $res['tutoriel_id'] . "'";?> />
+					<form method="post" action="supprimer_service.php">
+						<input type="hidden" name="id_service" <?php echo "value='" . $res['service_id'] . "'";?> />
 						<input type="submit" value="Supprimer"/>
-						<input type="button" value="Annuler" onclick="document.location.href='liste_tutoriel.php'" />
+						<input type="button" value="Annuler" onclick="document.location.href='liste_service.php'" />
 					</form>
 					
 					
@@ -62,15 +61,13 @@
 
 					
 					
-				}elseif(isset($_POST['id_tuto']) && $_POST['id_tuto']!==""){
+				}elseif(isset($_POST['id_service']) && $_POST['id_service']!==""){
 					
 					//supprimer l'enregsitrement dans la base
-					supprimeTutoriel($_POST['id_tuto'], $base);?>
-					<script type="text/javascript">
-						alert("Tutoriel bien supprimé");
-					</script>
+					supprimeService($_POST['id_service'], $base);?>
+
 					<?php
-					header("location: liste_tutoriel.php");
+					header("location: liste_service.php");
 
 				}
 				else{

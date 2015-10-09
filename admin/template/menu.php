@@ -3,8 +3,6 @@
 	<li><a href="">Clients</a>
 		<ul>
 			<li><a href="ajouter_client.php">Ajouter client</a></li>
-			<li><a href="supprimer_client.php">Supprimer client</a></li>
-			<li><a href="modifier_client.php">Modifier client</a></li>
 			<li><a href="liste_client.php">Liste des clients</a></li>
 		</ul>
 	</li>
@@ -39,8 +37,8 @@
 	<li>
 		<a href="">Services</a>
 		<ul>
-			<li><a href="">Nouveaux services</a></li>
-			<li><a href="">Liste des services</a></li>
+			<li><a href="ajouter_service.php">Nouveau service</a></li>
+			<li><a href="liste_service.php">Liste des services</a></li>
 		</ul>
 	</li>
 	<li>

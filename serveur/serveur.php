@@ -23,6 +23,10 @@
 		}
 	}
 
+	function envoieTutoriel(){
+		$date_envoie = selectionneTutorielToSend();
+	}
+
 	//une boucle 
 	while(true){
 		

@@ -216,7 +216,7 @@ function selectionneClientsService($service,$base){
 * parametres: int array tab 
 */
 function modifieClient($valeur, $base){
-	print_r($valeur);
+
 	$req = "UPDATE client SET client_UID=:client_UID,client_numTel=:client_numTel,
 	client_dateInsc=:client_dateInsc,client_extCouv=:client_extCouv,
 	client_UFR=:client_UFR,client_adrMac=:client_adrMac WHERE client_id=:client_id";
@@ -253,15 +253,37 @@ function getIndexDernierClient($base){
 	$base->lastInsertId();
 }
 
+/*
+*
+* description: supprime un client
+*/
 function supprimeClient($id, $base){
+	$req = "DELETE FROM client WHERE client_id=:id";
 
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+			"id" => $id
+		));
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
 }
 
 
+
+
+
 /************ requetes services ************/
+/*
+* fonction: un nouveau service
+*
+*/
 function newService($tab, $base){
-	$req = "INSERT INTO service(service_titre,service_nom,service_description) 
-VALUES(:service_titre, :service_nom, :service_description)";
+	$req = "INSERT INTO service(service_titre,service_nom,service_description,service_numero) 
+VALUES(:service_titre,:service_nom,:service_description,:service_numero)";
 	$res=1;
 	try
 	{
@@ -282,7 +304,26 @@ VALUES(:service_titre, :service_nom, :service_description)";
 		return -1;
 	}
 }
+/*
+* fonction: selectionne un service
+*
+*/
+function selectionneServiceById($id, $base){
+	$req = "SELECT * FROM service WHERE service_id=:id";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+				":id" => $id
+			));
+		$res=$envoie->fetch();
 
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
 /*
 * fonction: selectionne
 *
@@ -303,7 +344,24 @@ function selectionneService($titre, $base){
 	}
 		return $res;
 }
+/*
+* fonction: selectionne
+*
+*/
+function selectionneServices($base){
+	$req = "SELECT * FROM service";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array());
+		$res=$envoie;
 
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
 function modifieChampService($champ, $valeur, $id, $base)
 {
 	$req = "UPDATE service SET $champ=:champ WHERE service_titre=:service_titre";
@@ -320,6 +378,45 @@ function modifieChampService($champ, $valeur, $id, $base)
 		//echo "erreur : " . $e->getMessage();
 	}
 }
+
+/*
+* fonction: modifie
+* parametres: int array tab 
+*/
+function modifieService($valeur, $base){
+	$req = "UPDATE service SET service_titre=:service_titre,service_numero=:service_numero,
+	service_description=:service_description,service_nom=:service_nom WHERE service_id=:service_id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute($valeur);
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+}
+/*
+*
+* description: supprime un service
+*/
+function supprimeService($id, $base){
+	$req = "DELETE FROM service WHERE service_id=:id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+			"id" => $id
+		));
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+}
+
+
+
 
 
 /***************** les inscriptions ************/
@@ -411,6 +508,16 @@ function modifieChampInscription($champ, $valeur, $id, $base)
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
 /***************** les journaux sms ************/
 function newSMS($tab, $base){
 	$req = "INSERT INTO journal_sms(objet,expediteur,destinataire,contenu,date_sms) 
@@ -492,6 +599,12 @@ function supprimeSMS($id, $base){
 		//echo "erreur : " . $e->getMessage();
 	}
 }
+
+
+
+
+
+
 
 /***************** historique mensualite ************/
 function newMensualite($tab, $base){
@@ -619,6 +732,15 @@ function supprimeMensualite($id, $base){
 		//echo "erreur : " . $e->getMessage();
 	}
 }
+
+
+
+
+
+
+
+
+
 
 /**************** utilisateur **************/
 /*
@@ -770,23 +892,29 @@ function supprimeUser($id, $base){
 	}
 }
 
+
+
+
+
+
+
+
+
+
 /**************** tutoriels **************/
 /*
 *
+* description: ajout d'un nouveau tutoriel
 */
-function newTutoriel($entete, $contenu, $service, $base){
-	$req = "INSERT INTO tutoriel(tutoriel_entete,tutoriel_contenu,service_titre) 
-	VALUES(:tutoriel_entet,:tutoriel_contenu,:service_titre)";
-
+function newTutoriel($tuto, $base){
+	$req = "INSERT INTO tutoriel(tutoriel_entete,tutoriel_contenu,service_titre,tutoriel_dateDenvoie,tutoriel_auteur) 
+	VALUES(:tutoriel_entete,:tutoriel_contenu,:service_titre,:tutoriel_dateDenvoie,:tutoriel_auteur)";
+	print_r($tuto);
 	$res=1;
 	try
 	{
 		$envoie=$base->prepare($req);
-		$envoie->execute(array(
-			"tutoriel_entete" => $entete,
-			"tutoriel_contenu" => $contenu,
-			"service_titre" => $service
-		));
+		$envoie->execute($tuto);
 	}catch(Exception $e){
 	//	echo "erreur : " . $e->getMessage();
 		$res=-1;
@@ -809,14 +937,13 @@ function newTutoriel($entete, $contenu, $service, $base){
 */
 function selectionneTutoriel($id, $base){
 
-	$req = "SELECT * FROM tutoriel WHERE ";
+	$req = "SELECT * FROM tutoriel WHERE tutoriel_id=:id";
 	$res=[];
 	try
 	{
 		$envoie=$base->prepare($req);
 		$envoie->execute(array(
-				":username" => $username,
-				":password" => $password
+				":id" => $id
 			));
 
 		$res=$envoie->fetch();
@@ -826,6 +953,110 @@ function selectionneTutoriel($id, $base){
 	}
 		return $res;
 }
+/*
+*
+* description: selectionner tous les tutoriels
+*/
+function selectionneTutoriels($base){
+
+	$req = "SELECT * FROM tutoriel";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array());
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
+/*
+*
+* description: selectionner tous les tutoriels à envoyer
+*/
+function selectionneTutorielsToSend($base){
+
+	$req = "SELECT * FROM tutoriel";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array());
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
+
+/*
+* fonction: modifie un enregsitrement dans la table tutoriel
+* parametres: tableau des valeurs 
+*/
+function modifieTutoriel($valeur, $base){
+	$req = "UPDATE tutoriel SET tutoriel_entete=:tutoriel_entete, tutoriel_contenu=:tutoriel_contenu,
+	tutoriel_auteur=:tutoriel_auteur,tutoriel_dateDenvoie=:tutoriel_dateDenvoie, service_titre=:service_titre WHERE tutoriel_id=:tutoriel_id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute($valeur);
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+
+	return $envoie;
+}
+
+/*
+*
+*
+* description: 
+*/
+function modifieChampTutoriel($champ, $valeur, $id, $base)
+{
+	$req = "UPDATE tutoriel SET $champ=:champ WHERE $id=:id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+			"champ" => $valeur,
+			"id" => $id
+		));
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+}
+/*
+*
+*
+*/
+function supprimeTutoriel($id, $base){
+	$req = "DELETE FROM tutoriel WHERE tutoriel_id=:id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+			"id" => $id
+		));
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+}
+
+
+
+
 
 /************** actions automatiques ******/
 function newAction(){

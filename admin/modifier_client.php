@@ -27,7 +27,6 @@
 
 					//selectionner le client
 					$res=selectionneClient($_POST['client'],$base);
-					print_r($res);
 		
 					?>
 					<form method="post" action="modifier_client.php">

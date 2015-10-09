@@ -23,37 +23,36 @@
 				require_once("../scripts/traitement.php");
 				require_once("../scripts/requetes.php");
 
-				$tutoriels = selectionneTutoriels($base);
+				$services = selectionneServices($base);
 
 				echo "<div>
 				<table border='2' style='width:100%; height:100%;'>
-					<caption>Liste des tutoriels</caption>
+					<caption>Liste des Services</caption>
 					<thead>
 						<tr>
-							<th>Entete</th>
-							<th>Contenu</th>
-							<th>Service</th>
-							<th>Date d'envoie</th>
-							<th>Auteur</th>
+							<th>Label</th>
+							<th>Nom</th>
+							<th>Description</th>
+							<th>N° Tel</th>
 						</tr>
 					</thead>
 					<tbody>
 				";
-				while($tutoriel=$tutoriels->fetch()) {
+				while($service=$services->fetch()) {
 					?>
 						<tr>
-							<td><?php echo $tutoriel['tutoriel_entete'];?></td>
-							<td><?php echo $tutoriel['tutoriel_contenu'];?></td>
-							<td><?php echo $tutoriel['service_titre'];?></td>
-							<td><?php echo $tutoriel['tutoriel_dateDenvoie'];?></td>
-							<td><?php echo $tutoriel['tutoriel_auteur'];?></td>
+							<td><?php echo $service['service_titre'];?></td>
+							<td><?php echo $service['service_nom'];?></td>
+							<td><?php echo $service['service_description'];?></td>
+							<td><?php echo $service['service_numero'];?></td>
 							
-							<form method="post" action="supprimer_tutoriel.php">
-								<input type="hidden" name="id" value=<?php echo "" . $tutoriel['tutoriel_id'];?> />
-								<td width="30px"><input type="submit" onclick="alert(Voulez-vous vraiment supprimer ce tutoriel);" class='bct' value="Supprimer" style="width:100%;"></td>
+							
+							<form method="post" action="supprimer_service.php">
+								<input type="hidden" name="id" value=<?php echo "" . $service['service_id'];?> />
+								<td width="30px"><input type="submit" onclick="alert(Voulez-vous vraiment supprimer ce service);" class='bct' value="Supprimer" style="width:100%;"></td>
 							</form>
-							<form method="post" action="modifier_tutoriel.php">
-								<input type="hidden" name="id" value=<?php echo "" . $tutoriel['tutoriel_id'];?> />
+							<form method="post" action="modifier_service.php">
+								<input type="hidden" name="id" value=<?php echo "" . $service['service_id'];?> />
 								<td width="30px"><input type="submit" class='bct' value="Modifier" style="width:100%;"></td>
 							</form>
 							
