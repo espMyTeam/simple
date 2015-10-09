@@ -12,8 +12,7 @@
 		<a href="">Journaux</a>
 		<ul>
 			<li><a href="liste_sms">Liste des sms</a></li>
-			<li><a href="supprimer_sms.php">Supprimer sms</a></li>
-			<li><a href="">Historique paiement</a></li>
+			<li><a href="liste_histo_paiement.php">Historique paiement</a></li>
 		</ul>
 	</li>
 	<li>

@@ -88,7 +88,7 @@ function selectionneClient($uid, $base){
 				":uid" => $uid
 			));
 		$res=$envoie->fetch();
-		
+
 	}catch(Exception $e){
 		//echo "erreur : " . $e->getMessage();
 	}
@@ -216,8 +216,9 @@ function selectionneClientsService($service,$base){
 * parametres: int array tab 
 */
 function modifieClient($valeur, $base){
+	print_r($valeur);
 	$req = "UPDATE client SET client_UID=:client_UID,client_numTel=:client_numTel,
-	client_datInsc=:client_dateInsc,client_extCouv=:client_extCouv,
+	client_dateInsc=:client_dateInsc,client_extCouv=:client_extCouv,
 	client_UFR=:client_UFR,client_adrMac=:client_adrMac WHERE client_id=:client_id";
 
 	try
@@ -518,6 +519,54 @@ VALUES(:inscription_id,:mois,:annee,:date_paiement)";
 	}
 }
 
+/*
+*
+* description: selectionne tous les enregistrements dans historique_paiement
+*/
+function selectionneMensualites($base){
+	$req = "SELECT * FROM historique_paiement";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+				":id" => $id
+			));
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
+
+/*
+*
+* description: selectionne tous les enregistrements dans historique_paiement avec le details des clients
+*/
+function selectionneMensualitesClients($base){
+	$req = "SELECT id,mois,annee,date_paiement,client_UID,service_titre FROM historique_paiement,inscription WHERE historique_paiement.inscription_id=inscription.inscription_id";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+				":id" => $id
+			));
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
+
+/*
+*
+* description: selectionne une mensualite
+*/
 function selectionneMensualite($id, $base){
 	$req = "SELECT * FROM historique_paiement WHERE id=:id";
 	$res=[];
@@ -545,6 +594,24 @@ function modifieChampMensualite($champ, $valeur, $id, $base)
 		$envoie=$base->prepare($req);
 		$envoie->execute(array(
 			"champ" => $valeur,
+			"id" => $id
+		));
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+}
+/*
+*
+* description: supprime une historique de paiment
+*/
+function supprimeMensualite($id, $base){
+	$req = "DELETE FROM historique_paiement WHERE id=:id";
+
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
 			"id" => $id
 		));
 

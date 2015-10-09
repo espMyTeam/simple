@@ -35,7 +35,7 @@
 							<th>Date Inscription</th>
 							<th>Extension Couverture</th>
 							<th>UFR</th>
-							<th>@ MAC</th>
+							<th>Adresse MAC</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,11 +50,11 @@
 							<td><?php echo $client['client_UFR'];?></td>
 							<td><?php echo $client['client_adrMac'];?></td>
 							<form method="post" action="modifier_client.php">
-								<input type="hidden" name="client_id" value=<?php echo "" . $utilisateur['client_id'];?> />
+								<input type="hidden" name="client" value=<?php echo "" . $client['client_UID'];?> />
 								<td width="30px"><input type="submit" value="Modifier" style="width:100%;" class='bct'></td>
 							</form>
 							<form method="post" action="supprimer_client.php">
-								<input type="hidden" name="client_id" value=<?php echo "" . $utilisateur['client_id'];?> />
+								<input type="hidden" name="client" value=<?php echo "" . $client['client_UID'];?> />
 								<td width="30px"><input type="submit" class='bct' value="Supprimer" style="width:100%;"></td>
 							</form>
 							

@@ -22,10 +22,12 @@
 				require_once("../scripts/base_connexion.php");
 				require_once("../scripts/traitement.php");
 				require_once("../scripts/requetes.php");
-				if(isset($_POST['client_id']) && $_POST['client_id']!==""){
+
+				if(isset($_POST['client']) && $_POST['client']!==""){
 
 					//selectionner le client
-					$res=selectionneClient($_POST['client_id'],$base);
+					$res=selectionneClient($_POST['client'],$base);
+					print_r($res);
 		
 					?>
 					<form method="post" action="modifier_client.php">
@@ -36,42 +38,59 @@
 						</tr>
 						<tr>
 							<td><label>N° telephone</label></td>
-							<td><input type="text" name="username" <?php echo "value='" . $res['username'] . "'";?> /></td>
+							<td><input type="text" name="client_numTel" <?php echo "value='" . $res['client_numTel'] . "'";?> /></td>
 						</tr>
 						<tr>
 							<td><label>Date inscription</label></td>
-							<td><input type="text" name="client_dateInsc" <?php echo "value='" . $res['client_dateInsc'] . "'";?> /></td>
-						
+							<td><input type="text" name="client_dateInsc" <?php echo "value='" . $res['client_dateInsc'] . "'";?> readonly/></td>
 						<tr>
 							<td><label>Extesion Couverture</label></td>
-							<td><input type="text" name="username" <?php echo "value='" . $res['username'] . "'";?> /></td>
+							<td><input type="text" name="client_extCouv" <?php echo "value='" . $res['client_extCouv'] . "'";?> /></td>
 						</tr>
 						<tr>
-							<td><label>Mot de passe</label></td>
-							<td><input type="password" name="password" <?php echo "value='" . $res['password'] . "'";?> /></td>
+							<td><label>UFR</label></td>
+							<td><input type="text" name="client_UFR" <?php echo "value='" . $res['client_UFR'] . "'";?> /></td>
 						</tr>
 						<tr>
-							<td><input type="submit" value="Modifier"/></td>
+							<td><label>adresse MAC</label></td>
+							<td><input type="text" name="client_adrMac" <?php echo "value='" . $res['client_adrMac'] . "'";?> /></td>
 						</tr>
+						<tr>
+							<td><input type="submit" value="Sauvegarder"/></td>
+							<td><input type="button" value="Annuler" onclick="document.location.href='liste_client.php'" /></td>
+						</tr>
+
 						</table>
-						<input type="hidden" name="id_admin" <?php echo "value='" . $res['id_admin'] . "'";?> />
+						<input type="hidden" name="client_id" <?php echo "value='" . $res['client_id'] . "'";?> />
 					</form>
 					<?php
 
 					
 					
-				}elseif(isset($_POST['id_admin']) && isset($_POST['username']) && isset($_POST['password']) && $_POST['username']!=="" && $_POST['password']!=="" && $_POST['id_admin']!==""){
+				}
+				elseif(isset($_POST['client_id']) && $_POST['client_id']!=="" && 
+					isset($_POST['client_UID']) && $_POST['client_UID']!=="" && 
+					isset($_POST['client_UFR']) &&  
+					isset($_POST['client_numTel']) && $_POST['client_numTel']!=="" && 
+					isset($_POST['client_dateInsc']) && $_POST['client_dateInsc']!=="" && 
+					isset($_POST['client_adrMac']) &&  
+					isset($_POST['client_extCouv'])){
 					//modifier l'enregsitrement dans la base
 					
-					$utilisateur = array(
-						':username' => $_POST['username'],
-						':password' => $_POST['password'],
-						':id_admin' => $_POST['id_admin']
+					$client= array(
+						':client_UFR' => $_POST['client_UFR'],
+						':client_dateInsc' => $_POST['client_dateInsc'],
+						':client_adrMac' => $_POST['client_adrMac'],
+						':client_UID' => $_POST['client_UID'],
+						':client_numTel' => $_POST['client_numTel'],
+						':client_extCouv' => $_POST['client_extCouv'],
+						':client_id' => $_POST['client_id']
 					);
 					
+					
 
-					$res = modifieUser($utilisateur, $base);
-					header("location: liste_utilisateur.php");
+					$res = modifieClient($client, $base);
+					header("location: liste_client.php");
 
 				}
 				else{
