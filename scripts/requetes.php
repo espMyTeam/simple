@@ -979,12 +979,14 @@ function selectionneTutoriels($base){
 */
 function selectionneTutorielsToSend($base){
 
-	$req = "SELECT * FROM tutoriel";
+	$req = "SELECT client_UID,inscription.service_titre,mensualite,tutoriel_entete,tutoriel_contenu,tutoriel_dateDenvoie FROM inscription,tutoriel WHERE est_anvoye=:status AND inscription.service_titre=tutoriel.service_titre";
 	$res=[];
 	try
 	{
 		$envoie=$base->prepare($req);
-		$envoie->execute(array());
+		$envoie->execute(array(
+			":status" => 0
+		));
 
 		$res=$envoie;
 
@@ -993,7 +995,29 @@ function selectionneTutorielsToSend($base){
 	}
 		return $res;
 }
+/*
+*
+* description: selectionner tous les tutoriels à envoyer à la date specifié
+*/
+function selectionneTutorielsToSendH($dateHeure,$base){
 
+	$req = "SELECT client_UID,inscription.service_titre,mensualite,tutoriel_entete,tutoriel_contenu,tutoriel_dateDenvoie FROM inscription,tutoriel WHERE est_anvoye=:status AND tutoriel_dateDenvoie=:dateHeure AND inscription.service_titre=tutoriel.service_titre";
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+			":status" => 0,
+			":dateHeure" => $dateHeure
+		));
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
 /*
 * fonction: modifie un enregsitrement dans la table tutoriel
 * parametres: tableau des valeurs 
@@ -1021,14 +1045,14 @@ function modifieTutoriel($valeur, $base){
 */
 function modifieChampTutoriel($champ, $valeur, $id, $base)
 {
-	$req = "UPDATE tutoriel SET $champ=:champ WHERE $id=:id";
+	$req = "UPDATE tutoriel SET $champ=:champ WHERE tutoriel_id=:id";
 
 	try
 	{
 		$envoie=$base->prepare($req);
 		$envoie->execute(array(
-			"champ" => $valeur,
-			"id" => $id
+			":champ" => $valeur,
+			":id" => $id
 		));
 
 	}catch(Exception $e){

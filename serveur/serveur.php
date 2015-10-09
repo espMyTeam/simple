@@ -23,8 +23,27 @@
 		}
 	}
 
+/*
+*
+* description: mettre à jour les codes aleatoires de paiment
+*/
+	function updateCode(){
+
+	}
+/*
+*
+*
+* description: envoie automatique de tutoriels aux clients
+*/
+
 	function envoieTutoriel(){
-		$date_envoie = selectionneTutorielToSend();
+		$clock = Date("i-s");
+		if($clock==="00:00"){
+			$tuto = selectionneTutorielsToSend($base);
+			
+		}
+		
+
 	}
 
 	//une boucle 
