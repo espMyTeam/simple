@@ -19,6 +19,7 @@ require_once("../scripts/requetes.php");
 				$_SESSION['pseudo'] = $admin['username'];
 				$_SESSION['pass'] = $admin['password'];
 				 //echo "lo";
+				$no_visible_elements=false;
 				header("location: index.php");
 			}else{
 				session_destroy();
