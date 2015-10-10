@@ -42,6 +42,7 @@
 						<tr>
 							<td><label>Date inscription</label></td>
 							<td><input type="text" name="client_dateInsc" <?php echo "value='" . $res['client_dateInsc'] . "'";?> readonly/></td>
+						</tr>
 						<tr>
 							<td><label>Extesion Couverture</label></td>
 							<td><input type="text" name="client_extCouv" <?php echo "value='" . $res['client_extCouv'] . "'";?> /></td>
