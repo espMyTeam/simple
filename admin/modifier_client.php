@@ -27,6 +27,11 @@
 
 					//selectionner le client
 					$res=selectionneClient($_POST['client'],$base);
+					
+					if($res==[]){
+						//detruire la variable client
+					}
+					else{
 		
 					?>
 					<form method="post" action="modifier_client.php">
@@ -64,7 +69,7 @@
 						<input type="hidden" name="client_id" <?php echo "value='" . $res['client_id'] . "'";?> />
 					</form>
 					<?php
-
+					} //fin else
 					
 					
 				}
@@ -95,7 +100,14 @@
 				}
 				else{
 					
-					header("location: index.php");
+					//header("location: index.php");
+					//saisie de l'UID du client
+					?>
+					<form method="post" action="modifier_client.php">
+						<input type="text" name="client" placeholder="UID du client" />
+						<input type="submit" value="rechercher">
+					</form>
+					<?php
 				}
 			?>
 		</section>

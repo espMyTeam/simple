@@ -13,11 +13,13 @@
             <!-- infos utilisateur -->
             <div class="btn-group pull-right">
                 <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <i class="glyphicon glyphicon-user"></i><span class="hidden-sm hidden-xs"> admin</span>
+                    <i class="glyphicon glyphicon-user"></i><span class="hidden-sm hidden-xs">Admin: <?php echo $_SESSION['pseudo']; ?> </span>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
                     <li><a href="#">Profile</a></li>
+                    <li class="divider"></li>
+                    <li><a href="login.php">Paramètres</a></li>
                     <li class="divider"></li>
                     <li><a href="login.php">Logout</a></li>
                 </ul>
