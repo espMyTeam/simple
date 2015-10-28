@@ -973,6 +973,41 @@ function selectionneTutoriels($base){
 	}
 		return $res;
 }
+
+/*
+*
+* description: selectionner tous les tutoriels sivant le service
+*/
+function selectionneTutorielsService($base, $service="*", $statut="tout"){
+	if($service==="*" && $service==="tout"){
+		$req = "SELECT * FROM tutoriel";
+	}
+	elseif($service==="*" && $service!=="tout"){
+		$req = "SELECT * FROM tutoriel WHERE statut=:statut";
+	}
+	elseif($service!=="*" && $service==="tout"){
+		$req = "SELECT * FROM tutoriel WHERE service_titre=:service_titre";
+	}
+	elseif($service!=="*" && $service!=="tout"){
+		$req = "SELECT * FROM tutoriel WHERE service_titre=:service_titre AND statut=:statut";
+	}
+	
+	$res=[];
+	try
+	{
+		$envoie=$base->prepare($req);
+		$envoie->execute(array(
+				"service_titre" => $service,
+				"statut" => $statut
+			));
+
+		$res=$envoie;
+
+	}catch(Exception $e){
+		//echo "erreur : " . $e->getMessage();
+	}
+		return $res;
+}
 /*
 *
 * description: selectionner tous les tutoriels à envoyer
@@ -1083,11 +1118,17 @@ function supprimeTutoriel($id, $base){
 
 
 /************** actions automatiques ******/
-function newAction(){
+function newAction($base){
+	try{
+		$req = "SELECT * FROM action_automatique";
+		$res=$base->prepare($req);
+		$res = $res->fetch();
+	}catch(Exception $e){
 
+	}
 }
 
-function selectionAction($id){
+function selectionAction($id, $base){
 	$req = "SELECT * FROM action_automatique WHERE action_id=:id";
 	$res=[];
 	

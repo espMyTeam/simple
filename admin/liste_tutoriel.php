@@ -18,12 +18,12 @@
 
 		?>
 		<section style="height:100%;">
-			<form method="post" action="liste_tutoriel.php">
+			<form>
 				<table>
 					<tr>
 						<td><label>Service:</label></td>
 						<td>
-							<select name="tuto_service" required>
+							<select name="tuto_service" onselect="affiche();" required>
 								
 							<option value="S1">S1: Niou dème</option>
 							<option value="S2">S2: So Coool</option>
@@ -36,12 +36,18 @@
 					<tr>
 						<td><label>Statut:</label></td>
 						<td>
-							<select name="tuto_status" required>
+							<select name="tuto_status" onselect="affiche();" required>
 							<option value="send">Envoyés</option>
 							<option value="a_send">A envoyer</option>
 							<option value="a_send_today">A envoyer aujourd'hui</option>
 							<option value="tout">Tout</option>		
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Date d'envoie</label></td>
+						<td>
+							<input type="date" name="tuto_date" value=<?php echo date("Y-m-d");?> />
 						</td>
 					</tr>
 				</table>
@@ -104,4 +110,16 @@
 			include("template/footer.php");
 		?>
 	</body>
+	<script type="text/javascript">
+	
+	function affiche(){
+		//recuperer les element
+		var service = document.getElementById("service");
+		var statut = document.getElementById("statut");
+
+		//reactualiser l'affichage
+		x
+	}
+
+	</script>
 </html>

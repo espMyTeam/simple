@@ -19,15 +19,53 @@
 		?>
 		<section style="height:100%;">
 			<?php
+				if(!(isset($_POST['tuto_service']) && $_POST['tuto_service'])){
+					?>
+					<form method="post" action="liste_tutoriel.php">
+					<table>
+					<tr>
+						<td><label>Service:</label></td>
+						<td>
+							<select name="tuto_service" required>
+								
+							<option value="S1">S1: Niou dème</option>
+							<option value="S2">S2: So Coool</option>
+							<option value="S3">S3: Pro du jour</option>
+							<option value="S4">S4: CpasDiable</option>
+							<option value="*">Tout</option>	
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Statut:</label></td>
+						<td>
+							<select name="tuto_status" required>
+							<option value="envoye">Envoyés</option>
+							<option value="attente">A envoyer</option>
+							<option value="a_send_today">A envoyer aujourd'hui</option>
+							<option value="tout">Tout</option>		
+							</select>
+						</td>
+					</tr>
+				</table>
+				</form>
+					<?php
+				}else{
+			?>
+			
+			<?php
 				require_once("../scripts/base_connexion.php");
 				require_once("../scripts/traitement.php");
 				require_once("../scripts/requetes.php");
 
-				$tutoriels = selectionneTutoriels($base);
+				$tuto_service = $_POST['tuto_service'];
+				$tuto_status = $_POST['tuto_status'];
+
+				$tutoriels = selectionneTutorielsService($tuto_service, $tuto_status, $base);
 
 				echo "<div>
 				<table border='2' style='width:100%; height:100%;'>
-					<caption>Liste des tutoriels</caption>
+					<caption>Hostorique des tutoriels</caption>
 					<thead>
 						<tr>
 							<th>Entete</th>
@@ -62,7 +100,7 @@
 				}
 				echo "</tbody>
 				</table>
-				</div>";
+				</div>";}
 			?>
 		</section>
 		
